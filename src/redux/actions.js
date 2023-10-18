@@ -1,38 +1,49 @@
-import { types } from "./types";
+import { types } from "./types"
 
-export function changeTitleAction() {
-    return {
-        type: types.HANDLE_CHANGE
+function preloaderOn() {
+    return{
+        type: types.PRELOADER_ON
     }
 }
 
-export function asyncFunctionAction() {
-    return function (dispatch) {
-        setTimeout(() => {
-            alert("hello")
-        }, 2000)
+function preloaderOff() {
+    return{
+        type: types.PRELOADER_OFF
     }
 }
 
-function getUsersAction(users) {
-    return {
-        type: types.USERS,
-        payload: users
+function alertOnn() {
+    return{
+        type: types.ALERT_ON
+    }
+}
+function alertOff() {
+    return{
+        type: types.ALERT_OFF
     }
 }
 
-export function fetchUsersAction() {
+export function addUserAction (user) {
     return async function (dispatch) {
-        const reponse = await fetch('https://jsonplaceholder.typicode.com/users')
-        const data = await reponse.json()
-        dispatch(getUsersAction(data))
-    }
-}
+        dispatch(preloaderOn())
 
-export function fetchUserOneInfo(id) {
-    return async function (dispatch) {
-        const reponse = await fetch(`https://jsonplaceholder.typicode.com/users/${id}`)
-        const data = await reponse.json()
-        console.log(data)
+        const options = {
+            method: "POST",
+            headeres: {
+                "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(user)
+        }
+        const response = await fetch('https://jsonplaceholder.typicode.com/users', options)
+
+        if(response.status >= 200 && response.status <= 204) {
+            dispatch(preloaderOff())
+            alert('successfully')
+        }
+
+        if(response.status === 404) {
+            dispatch(preloaderOff)
+            alert('fail')
+        }
     }
 }
