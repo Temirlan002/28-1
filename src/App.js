@@ -1,12 +1,12 @@
 import './App.css';
-import ContactsPage from './pages/contactsPage/ContactsPage';
-import AboutPage from './pages/aboutPage/AboutPage';
 import MainPage from './pages/mainPage/MainPage';
+import UsersPage from './pages/usersPage/usersPage';
 
 function App() {
   return (
     <div className="App">
-      <ContactsPage />
+      {/* <MainPage /> */}
+      <UsersPage />
     </div>
   );
 }
